@@ -105,16 +105,16 @@ enum class FrameInvalidationReason
   INVALID_LAYER,
 };
 
-std::tuple<bool, std::optional<FrameInvalidationReason>> 
+std::optional<FrameInvalidationReason>
 ValidateFrameHeader(const FrameHeader& header)
 {
   if(header.AudioVersion == FrameHeader::AudioVersionID::INVALID)
-    return {false, FrameInvalidationReason::INVALID_MPEG_VERSION};
+    return FrameInvalidationReason::INVALID_MPEG_VERSION;
 
   if(header.Layer == FrameHeader::LayerID::INVALID)
-    return {false, FrameInvalidationReason::INVALID_LAYER};
+    return FrameInvalidationReason::INVALID_LAYER;
   
   //TODO: bitrate index & samplerate index validation
 
-  return {true, {}};
+  return {};
 }

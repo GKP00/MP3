@@ -31,9 +31,9 @@ int main(int argc, char** argv)
   while(SeekFrameSync(infile))
   {
     FrameHeader header = ReadFrameHeader(infile);
-    auto [valid, invalidReason] = ValidateFrameHeader(header);
+    auto invalidReason = ValidateFrameHeader(header);
 
-    if(valid)
+    if(!invalidReason)
     {
       ++frameCount;
       std::cout << "\e[32m" << "Valid frame sync found at: 0x" << infile.tellg() << '\n';
