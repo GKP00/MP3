@@ -26,7 +26,7 @@ struct FrameHeader
   static const unsigned char EMPHASIS_MASK             = 0b00000011;
 
   //indicates MPEG standard version
-  enum class AudioVersionID : unsigned
+  enum class AudioVersionID 
   {
     MPEG_2_5 = 0b00,
     INVALID  = 0b01,
@@ -35,7 +35,7 @@ struct FrameHeader
   } AudioVersion : 2;
 
   //indicates which audio layer of the MPEG standard
-  enum class LayerID : unsigned
+  enum class LayerID 
   {
     INVALID = 0b00,
     LAYER_3 = 0b01,
@@ -48,8 +48,8 @@ struct FrameHeader
 
   //sample & bitrate indexes meaning differ depending on MPEG version
   //use GetBitrate() and GetSamplerate() 
-  std::bitset<4> BitrateIndex;
-  std::bitset<2> SampleRateIndex;
+  bool BitrateIndex : 4;
+  bool SampleRateIndex : 2;
 
   //indicates whether the audio data is padded with 1 extra byte (slot)
   bool Padding : 1;
@@ -58,7 +58,7 @@ struct FrameHeader
   bool Private : 1;
 
   //indicates channel mode
-  enum class ChannelModeID : unsigned
+  enum class ChannelModeID 
   {
     STEREO = 0b00,
     JOINT  = 0b01, //joint stereo
@@ -68,7 +68,7 @@ struct FrameHeader
 
   //Only used in joint channel mode. Meaning differ depending on audio layer
   //Use GetExtentionMode()
-  std::bitset<2> ExtentionMode;
+  bool ExtentionMode : 2;
 
   //indicates whether the audio is copyrighted
   bool Copyright : 1;
@@ -79,7 +79,7 @@ struct FrameHeader
   //indicates to the decoder that the file must be de-emphasized, ie the 
   //decoder must 're-equalize' the sound after a Dolby-like noise supression. 
   //It is rarely used.
-  enum class EmphasisID : unsigned
+  enum class EmphasisID
   {
     NONE     = 0b00,
     MS_50_15 = 0b01,

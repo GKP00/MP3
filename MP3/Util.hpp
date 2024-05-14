@@ -66,10 +66,10 @@ FrameHeader ReadFrameHeader(std::istream& in, bool skipFrameSync=true)
   cur = in.get();
 
   header.BitrateIndex = 
-    ExtractBits<std::bitset<4>>(cur, FrameHeader::BITRATE_INDEX_MASK);
+    ExtractBits<bool>(cur, FrameHeader::BITRATE_INDEX_MASK);
 
   header.SampleRateIndex = 
-    ExtractBits<std::bitset<2>>(cur, FrameHeader::SAMPLERATE_INDEX_MASK);
+    ExtractBits<bool>(cur, FrameHeader::SAMPLERATE_INDEX_MASK);
 
   header.Padding = 
     ExtractBits<bool>(cur, FrameHeader::PADDING_BIT_MASK);
@@ -83,7 +83,7 @@ FrameHeader ReadFrameHeader(std::istream& in, bool skipFrameSync=true)
     ExtractBits<FrameHeader::ChannelModeID>(cur, FrameHeader::CHANNEL_MODE_MASK);
 
   header.ExtentionMode = 
-    ExtractBits<std::bitset<2>>(cur, FrameHeader::MODE_EXTENTION_MASK);
+    ExtractBits<bool>(cur, FrameHeader::MODE_EXTENTION_MASK);
 
   header.Copyright = 
     ExtractBits<bool>(cur, FrameHeader::COPYRIGHT_BIT_MASK);
