@@ -43,56 +43,11 @@ bool SeekFrameSync(std::istream& in)
 }
 
 
-FrameHeader ReadFrameHeader(std::istream& in, bool skipFrameSync=true)
+FrameHeader ReadFrameHeader(std::istream& in, bool skipFirstSyncByte = false)
 {
   FrameHeader header;
-
-  unsigned char cur;
-
-  if(!skipFrameSync)
-    cur = in.get();
-
-  cur = in.get();
-
-  header.AudioVersion = 
-    ExtractBits<FrameHeader::AudioVersionID>(cur, FrameHeader::AUDIO_VERSION_MASK);
-
-  header.Layer = 
-    ExtractBits<FrameHeader::LayerID>(cur, FrameHeader::LAYER_DESCRIPTION_MASK);
-
-  header.Protection = 
-    ExtractBits<bool>(cur, FrameHeader::PROTECTION_BIT_MASK);
-
-  cur = in.get();
-
-  header.BitrateIndex = 
-    ExtractBits<bool>(cur, FrameHeader::BITRATE_INDEX_MASK);
-
-  header.SampleRateIndex = 
-    ExtractBits<bool>(cur, FrameHeader::SAMPLERATE_INDEX_MASK);
-
-  header.Padding = 
-    ExtractBits<bool>(cur, FrameHeader::PADDING_BIT_MASK);
-
-  header.Private = 
-    ExtractBits<bool>(cur, FrameHeader::PRIVATE_BIT_MASK);
-
-  cur = in.get();
-
-  header.ChannelMode = 
-    ExtractBits<FrameHeader::ChannelModeID>(cur, FrameHeader::CHANNEL_MODE_MASK);
-
-  header.ExtentionMode = 
-    ExtractBits<bool>(cur, FrameHeader::MODE_EXTENTION_MASK);
-
-  header.Copyright = 
-    ExtractBits<bool>(cur, FrameHeader::COPYRIGHT_BIT_MASK);
-  
-  header.Original = 
-    ExtractBits<bool>(cur, FrameHeader::ORIGINAL_BIT_MASK);
-
-  header.Emphasis = 
-    ExtractBits<FrameHeader::EmphasisID>(cur, FrameHeader::EMPHASIS_MASK);
+  in.read(reinterpret_cast<char*>(&header) + (skipFirstSyncByte ? 1 : 0), 
+          FrameHeader::SERIALIZED_SIZE     - (skipFirstSyncByte ? 1 : 0));
 
   return header;
 }

@@ -6,6 +6,8 @@
 //variables are declared in their serialized order
 struct FrameHeader
 {
+  static const unsigned int SERIALIZED_SIZE = 4;
+
   //bitmasks for frame header fields grouped by byte
   static const unsigned char FRAMESYNC_FIRST_BYTEMASK  = 0b11111111;
 
@@ -24,6 +26,9 @@ struct FrameHeader
   static const unsigned char COPYRIGHT_BIT_MASK        = 0b00001000;
   static const unsigned char ORIGINAL_BIT_MASK         = 0b00000100;
   static const unsigned char EMPHASIS_MASK             = 0b00000011;
+
+  char FrameSyncByte;
+  bool FrameSyncBits: 3;
 
   //indicates MPEG standard version
   enum class AudioVersionID 

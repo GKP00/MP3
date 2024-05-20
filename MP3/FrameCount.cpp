@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 
   while(SeekFrameSync(infile))
   {
-    FrameHeader header = ReadFrameHeader(infile);
+    FrameHeader header = ReadFrameHeader(infile, true);
     auto invalidReason = ValidateFrameHeader(header);
 
     if(!invalidReason)
