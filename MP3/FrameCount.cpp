@@ -19,7 +19,6 @@ int main(int argc, char** argv)
   std::cout 
     << std::hex
     << std::uppercase
-    << std::setw(6)
     << std::setfill('0');
 
   std::ifstream infile{argv[1], std::ios::binary};
