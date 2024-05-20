@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 
 //MPEG audio frame header
 //variables are declared in their serialized order
@@ -90,5 +91,53 @@ struct FrameHeader
     INVALID  = 0b10,
     CCIT_J17 = 0b10,
   } Emphasis : 2;
+
+  signed short GetBitrate() const
+  {
+    //version, layer, bits 
+    static signed short rateTable[2][3][16] = 
+    {
+      //V1
+      { 
+        //L1
+        {0, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448, -1}, 
+        //L2
+        {0, 32, 48, 56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, -1},
+        //L3
+        {0, 32, 40, 48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, -1},
+      },
+
+      //V2
+      {
+        //L1
+        {0, 32, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256, -1},
+        //L2
+        {0,  8, 16, 24, 32, 40, 48,  56,  64,  80,  96, 112, 128, 144, 160, -1},
+        //L3
+        {0,  8, 16, 24, 32, 40, 48,  56,  64,  80,  96, 112, 128, 144, 160, -1},
+      },
+    };
+
+    size_t vIndex = AudioVersion == AudioVersionID::MPEG_1 ? 0 : 1;
+    size_t lIndex = Layer == LayerID::LAYER_1 ? 0 :
+                    Layer == LayerID::LAYER_2 ? 1 : 2;
+
+    return rateTable[vIndex][lIndex][BitrateIndex];
+  }
+
+  std::string GetVersionStr() const
+  {
+    return AudioVersion == AudioVersionID::MPEG_1   ? "1" :
+           AudioVersion == AudioVersionID::MPEG_2   ? "2" :
+           AudioVersion == AudioVersionID::MPEG_2_5 ? "2.5" : "INVALID";
+  }
+
+  std::string GetLayerStr() const
+  {
+    return Layer == LayerID::LAYER_1 ? "1" :
+           Layer == LayerID::LAYER_2 ? "2" :
+           Layer == LayerID::LAYER_3 ? "3" : "INVALID";
+  }
+
 };
 
