@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bitset>
 
 //MPEG audio frame header
 //variables are declared in their serialized order
