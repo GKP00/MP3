@@ -71,8 +71,11 @@ ValidateFrameHeader(const FrameHeader& header)
 
   if(header.Layer == FrameHeader::LayerID::INVALID)
     return FrameInvalidationReason::INVALID_LAYER;
+
+  if(header.GetBitrate() == FrameHeader::SpecialBitrate::INVALID)
+    return FrameInvalidationReason::INVALID_BITRATE_FOR_VERSION;
   
-  //TODO: bitrate index & samplerate index validation
+  //TODO: samplerate index validation
 
   return {};
 }
