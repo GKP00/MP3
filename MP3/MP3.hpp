@@ -7,6 +7,7 @@
 struct FrameHeader
 {
   static const unsigned int SERIALIZED_SIZE = 4;
+  static bool IsPadded(){ return sizeof(FrameHeader) != SERIALIZED_SIZE; }
 
   //bitmasks for frame header fields grouped by byte
   static const unsigned char FRAMESYNC_FIRST_BYTEMASK  = 0b11111111;
