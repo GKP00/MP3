@@ -2,9 +2,7 @@
 
 #include "./MP3.hpp"
 
-#include <fstream>
-#include <iostream>
-#include <tuple>
+#include <istream>
 #include <optional>
 
 //Seeks to the byte at the end of the next continuous run of 11 set bits.
