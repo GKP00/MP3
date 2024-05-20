@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 
   size_t frameCount = 0u;
 
-  while(SeekFrameSync(infile))
+  while(SeekFrameSync(infile, true))
   {
     FrameHeader header = ReadFrameHeader(infile, true);
     auto invalidReason = ValidateFrameHeader(header);

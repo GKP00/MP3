@@ -10,7 +10,7 @@
 //Seeks to the byte at the end of the next continuous run of 11 set bits.
 //(ie. after seeking the cursor will be on the byte of which its 3 most 
 // significant bits are part of the frame sync)
-bool SeekFrameSync(std::istream& in)
+bool SeekFrameSync(std::istream& in, bool seekPastSyncByte = false)
 {
   char cur;
   while(in.get(cur))
@@ -34,6 +34,10 @@ bool SeekFrameSync(std::istream& in)
       in.get();
       continue;
     }
+
+    //if we weren't supposed to seek past the sync byte then put it back
+    if(!seekPastSyncByte)
+      in.putback(0b11111111);
 
     return true;
   }
