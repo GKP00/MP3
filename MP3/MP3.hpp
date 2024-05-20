@@ -92,6 +92,12 @@ struct FrameHeader
     CCIT_J17 = 0b10,
   } Emphasis : 2;
 
+  enum SpecialBitrate 
+  {
+    INVALID = -1,
+    ANY = 0,
+  };
+
   signed short GetBitrate() const
   {
     //version, layer, bits 
@@ -123,6 +129,15 @@ struct FrameHeader
                     Layer == LayerID::LAYER_2 ? 1 : 2;
 
     return rateTable[vIndex][lIndex][BitrateIndex];
+  }
+
+  std::string GetBitrateStr() const
+  {
+    auto rate = GetBitrate();
+
+    return rate == SpecialBitrate::ANY      ? "ANY" :
+           rate == SpecialBitrate::INVALID  ? "INVALID" :
+           std::to_string( rate * 1000 );
   }
 
   std::string GetVersionStr() const
