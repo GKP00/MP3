@@ -62,6 +62,7 @@ enum class FrameInvalidationReason
   INVALID_MPEG_VERSION,
   INVALID_LAYER,
   INVALID_LAYER_II_BITRATE_AND_MODE,
+  INVALID_EMPHASIS,
 };
 
 std::optional<FrameInvalidationReason>
@@ -96,6 +97,9 @@ ValidateFrameHeader(const FrameHeader& header)
         return FrameInvalidationReason::INVALID_LAYER_II_BITRATE_AND_MODE;
     }
   }
+
+  if(header.Emphasis == FrameHeader::EmphasisID::INVALID)
+    return FrameInvalidationReason::INVALID_EMPHASIS;
 
   return {};
 }
