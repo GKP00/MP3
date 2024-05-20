@@ -75,7 +75,9 @@ ValidateFrameHeader(const FrameHeader& header)
   if(header.GetBitrate() == FrameHeader::SpecialBitrate::INVALID)
     return FrameInvalidationReason::INVALID_BITRATE_FOR_VERSION;
   
-  //TODO: samplerate index validation
+  if(header.GetSampleRate() == FrameHeader::SpecialSampleRate::RESERVED)
+    return FrameInvalidationReason::INVALID_SAMPLERATE_FOR_VERSION;
+
 
   return {};
 }
