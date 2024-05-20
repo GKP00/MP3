@@ -9,8 +9,6 @@
 
 int main(int argc, char** argv)
 {
-  FrameHeader headear;
-
   if(argc != 2)
   {
     std::cout << "Usage: " << argv[0] << " <file.mp3>\n";
