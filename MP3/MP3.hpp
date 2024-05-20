@@ -31,7 +31,7 @@ struct FrameHeader
   bool FrameSyncBits: 3;
 
   //indicates MPEG standard version
-  enum class AudioVersionID 
+  enum class AudioVersionID : unsigned
   {
     MPEG_2_5 = 0b00,
     INVALID  = 0b01,
@@ -40,7 +40,7 @@ struct FrameHeader
   } AudioVersion : 2;
 
   //indicates which audio layer of the MPEG standard
-  enum class LayerID 
+  enum class LayerID : unsigned
   {
     INVALID = 0b00,
     LAYER_3 = 0b01,
@@ -63,7 +63,7 @@ struct FrameHeader
   bool Private : 1;
 
   //indicates channel mode
-  enum class ChannelModeID 
+  enum class ChannelModeID : unsigned
   {
     STEREO = 0b00,
     JOINT  = 0b01, //joint stereo
@@ -84,7 +84,7 @@ struct FrameHeader
   //indicates to the decoder that the file must be de-emphasized, ie the 
   //decoder must 're-equalize' the sound after a Dolby-like noise supression. 
   //It is rarely used.
-  enum class EmphasisID
+  enum class EmphasisID : unsigned
   {
     NONE     = 0b00,
     MS_50_15 = 0b01,
