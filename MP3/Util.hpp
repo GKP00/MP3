@@ -61,6 +61,7 @@ enum class FrameInvalidationReason
   INVALID_SAMPLERATE_FOR_VERSION,
   INVALID_MPEG_VERSION,
   INVALID_LAYER,
+  INVALID_LAYER_II_BITRATE_AND_MODE,
 };
 
 std::optional<FrameInvalidationReason>
@@ -78,6 +79,23 @@ ValidateFrameHeader(const FrameHeader& header)
   if(header.GetSampleRate() == FrameHeader::SpecialSampleRate::RESERVED)
     return FrameInvalidationReason::INVALID_SAMPLERATE_FOR_VERSION;
 
+  //For Layer II there are some combinations of bitrate and mode which are not allowed
+  if(header.Layer == FrameHeader::LayerID::LAYER_2)
+  {
+    if(header.ChannelMode == FrameHeader::ChannelModeID::SINGLE)
+    {
+      if(header.GetBitrate() >= 224000)
+        return FrameInvalidationReason::INVALID_LAYER_II_BITRATE_AND_MODE;
+    }
+    else
+    {
+      if(header.GetBitrate() >= 32000 && header.GetBitrate() <= 56000)
+        return FrameInvalidationReason::INVALID_LAYER_II_BITRATE_AND_MODE;
+
+      if(header.GetBitrate() == 80000)
+        return FrameInvalidationReason::INVALID_LAYER_II_BITRATE_AND_MODE;
+    }
+  }
 
   return {};
 }
