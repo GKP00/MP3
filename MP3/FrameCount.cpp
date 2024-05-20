@@ -35,11 +35,17 @@ int main(int argc, char** argv)
     {
       ++frameCount;
       std::cout << "\e[32m" << "Valid frame sync found at: 0x" << infile.tellg()
-        << " (version: " << header.GetVersionStr() << ") (layer: " << header.GetLayerStr() << ")\n";
+        << " (version: " << header.GetVersionStr() << ')'
+        << " (layer: " << header.GetLayerStr() << ')'
+        << " (bitrate: " << header.GetBitrateStr() << ")\n";
     }
     else
+    {
       std::cout << "\e[31m" << "Invalid frame sync found at: 0x" << infile.tellg()
-        << " (version: " << header.GetVersionStr() << ") (layer: " << header.GetLayerStr() << ")\n";
+        << " (version: " << header.GetVersionStr() << ')'
+        << " (layer: " << header.GetLayerStr() << ')'
+        << " (bitrate: " << header.GetBitrateStr() << ")\n";
+    }
   }
 
   std::cout.flags(resetFlags);
