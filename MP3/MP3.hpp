@@ -95,11 +95,11 @@ struct FrameHeader
 
   enum SpecialBitrate 
   {
-    INVALID = -1,
+    INVALID = -1000,
     ANY = 0,
   };
 
-  signed short GetBitrate() const
+  signed int GetBitrate() const
   {
     //version, layer, bits 
     static signed short rateTable[2][3][16] = 
@@ -129,7 +129,7 @@ struct FrameHeader
     size_t lIndex = Layer == LayerID::LAYER_1 ? 0 :
                     Layer == LayerID::LAYER_2 ? 1 : 2;
 
-    return rateTable[vIndex][lIndex][BitrateIndex];
+    return rateTable[vIndex][lIndex][BitrateIndex] * 1000;
   }
 
   std::string GetBitrateStr() const
@@ -138,7 +138,7 @@ struct FrameHeader
 
     return rate == SpecialBitrate::ANY      ? "ANY" :
            rate == SpecialBitrate::INVALID  ? "INVALID" :
-           std::to_string( rate * 1000 );
+           std::to_string(rate);
   }
 
   std::string GetVersionStr() const
