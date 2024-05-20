@@ -151,6 +151,35 @@ struct FrameHeader
     return rateTable[AudioVersion][Layer][BitrateIndex] * 8000;
   }
 
+  enum SpecialSampleRate
+  {
+    RESERVED = 0,
+  };
+
+  unsigned short GetSampleRate() const
+  {
+    //version, sample rate index 
+    static unsigned short rateTable[4][4] =
+    {
+      //version[00] = MPEG_2_5
+      {11025, 12000,  8000,  0},
+      //version[01] = INVALID
+      {  0,     0,       0,  0},
+      //version[10] = MPEG_2
+      {22050, 24000, 16000,  0},
+      //version[11] = MPEG_1
+      {44100, 48000, 32000,  0},
+    };
+
+    return rateTable[AudioVersion][SampleRateIndex];
+  }
+
+  std::string GetSampleRateStr() const
+  {
+    auto rate = GetSampleRate();
+    return rate == SpecialSampleRate::RESERVED ? "INVALID" : std::to_string(rate);
+  }
+
   std::string GetBitrateStr() const
   {
     auto rate = GetBitrate();
