@@ -34,10 +34,12 @@ int main(int argc, char** argv)
     if(!invalidReason)
     {
       ++frameCount;
-      std::cout << "\e[32m" << "Valid frame sync found at: 0x" << infile.tellg() << '\n';
+      std::cout << "\e[32m" << "Valid frame sync found at: 0x" << infile.tellg()
+        << " (version: " << header.GetVersionStr() << ") (layer: " << header.GetLayerStr() << ")\n";
     }
     else
-      std::cout << "\e[31m" << "Invalid frame sync found at: 0x" << infile.tellg() << '\n';
+      std::cout << "\e[31m" << "Invalid frame sync found at: 0x" << infile.tellg()
+        << " (version: " << header.GetVersionStr() << ") (layer: " << header.GetLayerStr() << ")\n";
   }
 
   std::cout.flags(resetFlags);
